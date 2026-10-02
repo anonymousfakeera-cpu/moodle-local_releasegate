@@ -32,6 +32,16 @@ source), `[verified by CI]` (observed in a GitHub Actions run, with date) or `[n
 - CI matrix: Moodle 5.3 jobs now use `main` and are experimental, because
   `MOODLE_503_STABLE` does not exist upstream yet `[verified by CI]`.
 
+### Fixed
+
+- `site_overview` built its course restriction with `$DB->get_in_or_equal()`, whose parameter
+  names Report Builder rejects (`Invalid parameter names`), so the site overview would have
+  thrown for any user with an allowed course. Found by the new access-scope tests in CI
+  `[verified by CI]`; now uses `database::generate_param_name()` `[not run]` until the next CI run.
+- Access-scope tests reset the Report Builder instance cache between reads (it is keyed by
+  report id and user, not by parameters) and expect the fail-closed exception when the report
+  is created `[not run]`.
+
 ### Added
 
 - Capabilities in `db/access.php`: `view`, `viewresults`, `viewevidence`, `run`, `export`,

@@ -31,6 +31,7 @@ namespace local_releasegate;
 use context_course;
 use context_system;
 use core_reportbuilder\exception\report_access_exception;
+use core_reportbuilder\manager;
 use core_reportbuilder\system_report_factory;
 use local_releasegate\reportbuilder\local\systemreports\course_results;
 use local_releasegate\reportbuilder\local\systemreports\site_overview;
@@ -62,6 +63,10 @@ final class access_scope_test extends \advanced_testcase {
      * @return array
      */
     private function rows(string $source, \context $context, array $parameters = []): array {
+        // Report Builder caches report instances per report id and user for the whole request
+        // (manager::get_report_from_persistent), ignoring parameters, so reset between reads.
+        manager::reset_caches();
+
         $report = system_report_factory::create($source, $context, 'local_releasegate', '', 0, $parameters);
         $reportid = (int) $report->get_report_persistent()->get('id');
 
@@ -177,10 +182,10 @@ final class access_scope_test extends \advanced_testcase {
         $this->getDataGenerator()->create_course(['fullname' => 'Course A', 'shortname' => 'CA']);
         $this->setUser($user);
 
-        $rows = $this->rows(site_overview::class, context_system::instance());
-        $this->assertCount(0, $rows);
-
-        $report = system_report_factory::create(
+        // can_view() is evaluated while the report is built, so creating it must fail closed.
+        manager::reset_caches();
+        $this->expectException(report_access_exception::class);
+        system_report_factory::create(
             site_overview::class,
             context_system::instance(),
             'local_releasegate',
@@ -188,8 +193,6 @@ final class access_scope_test extends \advanced_testcase {
             0,
             []
         );
-        $this->expectException(report_access_exception::class);
-        $report->require_can_view();
     }
 
     /**
@@ -256,7 +259,11 @@ final class access_scope_test extends \advanced_testcase {
         assign_capability('local/releasegate:view', CAP_PROHIBIT, $roleid, $contexta->id, true);
         accesslib_clear_all_caches_for_unit_testing();
         $this->setUser($user);
-        $this->assertCount(0, $this->rows(site_overview::class, context_system::instance()));
+
+        // With no allowed course left the report refuses to build at all (fail closed).
+        manager::reset_caches();
+        $this->expectException(report_access_exception::class);
+        system_report_factory::create(site_overview::class, context_system::instance(), 'local_releasegate', '', 0, []);
     }
 
     /**

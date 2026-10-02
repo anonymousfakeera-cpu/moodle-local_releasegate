@@ -31,6 +31,7 @@ namespace local_releasegate\reportbuilder\local\systemreports;
 use core\lang_string;
 use core_course\reportbuilder\local\entities\course_category;
 use core_reportbuilder\local\entities\course as course_entity;
+use core_reportbuilder\local\helpers\database;
 use core_reportbuilder\local\report\column;
 use core_reportbuilder\system_report;
 use local_releasegate\reportbuilder\local\entities\run;
@@ -52,8 +53,6 @@ class site_overview extends system_report {
      * @return void
      */
     protected function initialise(): void {
-        global $DB;
-
         // Main table: course, so every course shows (at most) once.
         $courseentity = new course_entity();
         $coursealias = $courseentity->get_table_alias('course');
@@ -82,8 +81,16 @@ class site_overview extends system_report {
         // Row scoping: only courses where the viewer holds the view capability.
         $allowed = $this->get_allowed_course_ids();
         if (!empty($allowed)) {
-            [$insql, $inparams] = $DB->get_in_or_equal($allowed, SQL_PARAMS_NAMED, 'rgc');
-            $this->add_base_condition_sql("{$coursealias}.id {$insql}", $inparams);
+            // Report Builder only accepts parameter names it generated itself
+            // (database::validate_params), so $DB->get_in_or_equal() cannot be used here.
+            $placeholders = [];
+            $inparams = [];
+            foreach ($allowed as $courseid) {
+                $name = database::generate_param_name();
+                $placeholders[] = ':' . $name;
+                $inparams[$name] = $courseid;
+            }
+            $this->add_base_condition_sql("{$coursealias}.id IN (" . implode(',', $placeholders) . ')', $inparams);
         } else {
             // No allowed courses: match nothing rather than every row.
             $this->add_base_condition_sql('1 = 0');
