@@ -1,4 +1,4 @@
-@local_releasegate
+@local @local_releasegate
 Feature: Release gate pages enforce authentication and authorisation
   In order to protect scan results and audit data
   Unauthenticated users must be redirected to the login page
