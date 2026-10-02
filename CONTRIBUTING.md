@@ -12,6 +12,7 @@ requests are welcome once the repository is public.
   `course_modules_completion`, `quiz_attempts`, log tables) must not be read by rule code.
 - **Access control.** Use Moodle capabilities and check them on every entry point. Restrict
   report rows in the query, not only in `can_view()`.
+- **Report Builder callbacks.** They receive raw database values, which are strings on MySQL. Do not type-hint scalars such as `?int` on column callbacks; cast inside (found by CI, 2026-10-02).
 - **Compatibility.** Target Moodle 4.5 LTS, 5.0, 5.1 and 5.3 LTS, PHP 8.1 syntax floor. Check
   any Moodle API against the 4.5 branch before using it (see `docs/adr/0002-compatibility-policy.md`).
 

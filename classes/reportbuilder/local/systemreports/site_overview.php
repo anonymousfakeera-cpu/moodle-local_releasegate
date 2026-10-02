@@ -149,12 +149,12 @@ class site_overview extends system_report {
             ->set_type(column::TYPE_TEXT)
             ->add_fields("{$coursealias}.id")
             ->set_is_sortable(false)
-            ->add_callback(static function (?int $courseid): string {
+            ->add_callback(static function ($courseid): string {
                 if (empty($courseid)) {
                     return '';
                 }
                 return html_writer::link(
-                    new moodle_url('/local/releasegate/course.php', ['id' => $courseid]),
+                    new moodle_url('/local/releasegate/course.php', ['id' => (int) $courseid]),
                     get_string('coursegate', 'local_releasegate')
                 );
             }));

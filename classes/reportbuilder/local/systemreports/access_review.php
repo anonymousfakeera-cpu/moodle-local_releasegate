@@ -126,12 +126,12 @@ class access_review extends system_report {
             ->set_type(column::TYPE_TEXT)
             ->add_fields("{$contextalias}.id")
             ->set_is_sortable(false)
-            ->add_callback(static function (?int $contextid): string {
+            ->add_callback(static function ($contextid): string {
                 if (empty($contextid)) {
                     return '';
                 }
                 return html_writer::link(
-                    new moodle_url('/admin/roles/check.php', ['contextid' => $contextid]),
+                    new moodle_url('/admin/roles/check.php', ['contextid' => (int) $contextid]),
                     get_string('checkpermissions', 'local_releasegate')
                 );
             }));

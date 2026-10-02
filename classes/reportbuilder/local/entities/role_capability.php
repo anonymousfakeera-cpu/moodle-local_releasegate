@@ -130,7 +130,7 @@ class role_capability extends base {
             ->set_type(column::TYPE_TEXT)
             ->add_fields(context_helper::get_preload_record_columns_sql($contextalias))
             ->set_is_sortable(false)
-            ->add_callback(static function (?int $value, stdClass $row): string {
+            ->add_callback(static function ($value, stdClass $row): string {
                 if ($value === null || $row->ctxid === null) {
                     return '';
                 }

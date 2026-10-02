@@ -34,6 +34,10 @@ source), `[verified by CI]` (observed in a GitHub Actions run, with date) or `[n
 
 ### Fixed
 
+- Four Report Builder column callbacks (`site_overview`, `access_review`, `audit`, `role_capability`)
+  type-hinted `?int`, but MySQL returns strings and Report Builder calls with strict types, so
+  every row would have thrown a `TypeError`. Found by the access-scope tests in CI
+  `[verified by CI]`; the hints are removed and values cast inside `[not run]` until the next CI run.
 - `site_overview` built its course restriction with `$DB->get_in_or_equal()`, whose parameter
   names Report Builder rejects (`Invalid parameter names`), so the site overview would have
   thrown for any user with an allowed course. Found by the new access-scope tests in CI

@@ -113,12 +113,12 @@ class audit extends base {
             ->set_type(column::TYPE_TEXT)
             ->add_field("{$alias}.courseid")
             ->set_is_sortable(true)
-            ->add_callback(static function (?int $courseid): string {
+            ->add_callback(static function ($courseid): string {
                 if (empty($courseid)) {
                     return get_string('system', 'local_releasegate');
                 }
                 return html_writer::link(
-                    new moodle_url('/local/releasegate/course.php', ['id' => $courseid]),
+                    new moodle_url('/local/releasegate/course.php', ['id' => (int) $courseid]),
                     get_string('course', 'local_releasegate') . ' ' . $courseid
                 );
             });
