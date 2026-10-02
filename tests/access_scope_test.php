@@ -182,7 +182,7 @@ final class access_scope_test extends \advanced_testcase {
         $this->getDataGenerator()->create_course(['fullname' => 'Course A', 'shortname' => 'CA']);
         $this->setUser($user);
 
-        // can_view() is evaluated while the report is built, so creating it must fail closed.
+        // The report checks can_view() while it is built, so creating it must fail closed.
         manager::reset_caches();
         $this->expectException(report_access_exception::class);
         system_report_factory::create(
