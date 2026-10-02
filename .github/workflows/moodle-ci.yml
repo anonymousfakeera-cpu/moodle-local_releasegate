@@ -13,7 +13,7 @@
 #
 # To enable MariaDB or PostgreSQL later:
 #   1. Uncomment its service block under "services".
-#   2. Add its name to the "database" list in the matrix.
+#   2. Add matrix entries with "database: mariadb" or "database: pgsql" (one include item per job).
 # The official example uses 'mariadb' and 'pgsql' as the DB values. The 'mysqli' value
 # for MySQL is expected to work but has not been confirmed in this repository: check the
 # first run.
@@ -66,18 +66,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        database: [mysqli]
         include:
-          - { moodle-branch: MOODLE_405_STABLE, php: '8.1' }
-          - { moodle-branch: MOODLE_405_STABLE, php: '8.3' }
-          - { moodle-branch: MOODLE_500_STABLE, php: '8.2' }
-          - { moodle-branch: MOODLE_500_STABLE, php: '8.4' }
-          - { moodle-branch: MOODLE_501_STABLE, php: '8.2' }
-          - { moodle-branch: MOODLE_501_STABLE, php: '8.4' }
+          - { database: mysqli, moodle-branch: MOODLE_405_STABLE, php: '8.1' }
+          - { database: mysqli, moodle-branch: MOODLE_405_STABLE, php: '8.3' }
+          - { database: mysqli, moodle-branch: MOODLE_500_STABLE, php: '8.2' }
+          - { database: mysqli, moodle-branch: MOODLE_500_STABLE, php: '8.4' }
+          - { database: mysqli, moodle-branch: MOODLE_501_STABLE, php: '8.2' }
+          - { database: mysqli, moodle-branch: MOODLE_501_STABLE, php: '8.4' }
           # 5.3 LTS is scheduled for release on 2026-10-05. Experimental until the
           # branch is stable and a first run has passed; remove "experimental" then.
-          - { moodle-branch: MOODLE_503_STABLE, php: '8.3', experimental: true }
-          - { moodle-branch: MOODLE_503_STABLE, php: '8.4', experimental: true }
+          - { database: mysqli, moodle-branch: MOODLE_503_STABLE, php: '8.3', experimental: true }
+          - { database: mysqli, moodle-branch: MOODLE_503_STABLE, php: '8.4', experimental: true }
 
     steps:
       - name: Check out repository code
