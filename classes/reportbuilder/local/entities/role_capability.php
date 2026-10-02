@@ -170,7 +170,7 @@ class role_capability extends base {
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_INTEGER)
             ->add_field("(SELECT COUNT(ra.id) FROM {role_assignments} ra
-                          WHERE ra.roleid = {$rolealias}.id AND ra.contextid = {$contextalias}.id)")
+                          WHERE ra.roleid = {$rolealias}.id AND ra.contextid = {$contextalias}.id)", 'usercount')
             ->set_is_sortable(false)
             ->add_callback(static function ($value): string {
                 return (string) (int) $value;

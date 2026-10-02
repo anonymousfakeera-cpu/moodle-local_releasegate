@@ -18,17 +18,17 @@ Feature: Release gate pages enforce authentication and authorisation
   @javascript
   Scenario: Unauthenticated user is redirected from the site overview
     When I visit "/local/releasegate/index.php"
-    Then I should see "You need to log in"
+    Then I should see "Log in"
 
   @javascript
   Scenario: Unauthenticated user is redirected from the access review
     When I visit "/local/releasegate/accessreview.php"
-    Then I should see "You need to log in"
+    Then I should see "Log in"
 
   @javascript
   Scenario: Unauthenticated user is redirected from the audit log
     When I visit "/local/releasegate/audit.php"
-    Then I should see "You need to log in"
+    Then I should see "Log in"
 
   @javascript
   Scenario: Site administrator can open the site overview
