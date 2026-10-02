@@ -97,9 +97,9 @@ class runner {
             'timecreated' => time(),
         ];
         $transaction = $DB->start_delegated_transaction();
-        $run->id = $DB->insert_record('local_rg_run', $run);
+        $run->id = $DB->insert_record('local_releasegate_run', $run);
         foreach ($results as $r) {
-            $DB->insert_record('local_rg_result', (object) [
+            $DB->insert_record('local_releasegate_result', (object) [
                 'runid' => $run->id,
                 'ruleid' => $r->ruleid,
                 'area' => $r->area,

@@ -73,10 +73,11 @@ jobs:
           - { database: mysqli, moodle-branch: MOODLE_500_STABLE, php: '8.4' }
           - { database: mysqli, moodle-branch: MOODLE_501_STABLE, php: '8.2' }
           - { database: mysqli, moodle-branch: MOODLE_501_STABLE, php: '8.4' }
-          # 5.3 LTS is scheduled for release on 2026-10-05. Experimental until the
-          # branch is stable and a first run has passed; remove "experimental" then.
-          - { database: mysqli, moodle-branch: MOODLE_503_STABLE, php: '8.3', experimental: true }
-          - { database: mysqli, moodle-branch: MOODLE_503_STABLE, php: '8.4', experimental: true }
+          # 5.3 LTS: upstream branch MOODLE_503_STABLE did not exist on 2026-10-02 (CI error:
+          # "Remote branch MOODLE_503_STABLE not found"), so these two jobs use "main".
+          # Experimental until the stable branch exists; then switch to MOODLE_503_STABLE.
+          - { database: mysqli, moodle-branch: main, php: '8.3', experimental: true }
+          - { database: mysqli, moodle-branch: main, php: '8.4', experimental: true }
 
     steps:
       - name: Check out repository code

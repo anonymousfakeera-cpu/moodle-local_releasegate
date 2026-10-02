@@ -65,10 +65,10 @@ class site_overview extends system_report {
         // course.php uses the same definition, ORDER BY id DESC.
         // LEFT JOIN so courses that were never scanned still appear with a "Not scanned" verdict.
         $runentity = new run();
-        $runalias = $runentity->get_table_alias('local_rg_run');
+        $runalias = $runentity->get_table_alias('local_releasegate_run');
         $this->add_entity($runentity->add_join(
-            "LEFT JOIN {local_rg_run} {$runalias} ON {$runalias}.id = (
-                SELECT MAX(r2.id) FROM {local_rg_run} r2 WHERE r2.courseid = {$coursealias}.id
+            "LEFT JOIN {local_releasegate_run} {$runalias} ON {$runalias}.id = (
+                SELECT MAX(r2.id) FROM {local_releasegate_run} r2 WHERE r2.courseid = {$coursealias}.id
              )"
         ));
 

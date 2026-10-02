@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
   <TABLES>
-    <TABLE NAME="local_rg_run" COMMENT="One scan of one course">
+    <TABLE NAME="local_releasegate_run" COMMENT="One scan of one course">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
@@ -22,7 +22,7 @@
         <INDEX NAME="course_time" UNIQUE="false" FIELDS="courseid, timecreated"/>
       </INDEXES>
     </TABLE>
-    <TABLE NAME="local_rg_result" COMMENT="Result of one rule in one run">
+    <TABLE NAME="local_releasegate_result" COMMENT="Result of one rule in one run">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="runid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
@@ -35,10 +35,10 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="runid" TYPE="foreign" FIELDS="runid" REFTABLE="local_rg_run" REFFIELDS="id"/>
+        <KEY NAME="runid" TYPE="foreign" FIELDS="runid" REFTABLE="local_releasegate_run" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="local_rg_audit" COMMENT="Hash-chained audit log">
+    <TABLE NAME="local_releasegate_audit" COMMENT="Hash-chained audit log">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>

@@ -46,7 +46,7 @@ if (optional_param('run', 0, PARAM_BOOL) && confirm_sesskey()) {
 // one row per scan). site_overview.php uses the same definition via MAX(id).
 $run = $DB->get_record_sql(
     "SELECT id, verdict, coverage, rulesetversion, fingerprint, timecreated
-       FROM {local_rg_run}
+       FROM {local_releasegate_run}
       WHERE courseid = :c
    ORDER BY id DESC",
     ['c' => $id],
@@ -133,7 +133,7 @@ if ($run) {
         if ($showevevidence) {
             foreach (
                 $DB->get_records(
-                    'local_rg_result',
+                    'local_releasegate_result',
                     ['runid' => $run->id],
                     'id ASC',
                     'id, ruleid, status, message, evidence'

@@ -99,4 +99,4 @@ site.
 |---|---|---|---|
 | X.1 | Confirm no file outside `releasegate/` changed | `git status` clean outside the plugin | Not run |
 | X.2 | Run `php -l` and phpcs on a machine with PHP | No syntax or style errors | Not run |
-| X.3 | Confirm no table outside `local_rg_*` is written during a scan | DB audit shows no other writes | Not run |
+| X.3 | Confirm no table outside `local_releasegate_*` is written during a scan | DB audit shows no other writes | Not run |

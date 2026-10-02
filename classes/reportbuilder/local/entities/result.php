@@ -17,7 +17,7 @@
 /**
  * Report Builder entity for rule results.
  *
- * Exposes an explicit allowlist of columns from {local_rg_result}. Rule ids
+ * Exposes an explicit allowlist of columns from {local_releasegate_result}. Rule ids
  * are always shown with their localised rule title, never as a bare code.
  *
  * @package    local_releasegate
@@ -44,7 +44,7 @@ class result extends base {
      * @return string[]
      */
     protected function get_default_tables(): array {
-        return ['local_rg_result'];
+        return ['local_releasegate_result'];
     }
 
     /**
@@ -79,7 +79,7 @@ class result extends base {
      * @return column[]
      */
     protected function get_all_columns(): array {
-        $resultalias = $this->get_table_alias('local_rg_result');
+        $resultalias = $this->get_table_alias('local_releasegate_result');
 
         // Rule, shown as its localised title with the id in brackets for traceability.
         $columns[] = (new column(
@@ -217,7 +217,7 @@ class result extends base {
      * @return filter[]
      */
     protected function get_all_filters(): array {
-        $resultalias = $this->get_table_alias('local_rg_result');
+        $resultalias = $this->get_table_alias('local_releasegate_result');
 
         // Severity.
         $filters[] = (new filter(

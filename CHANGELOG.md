@@ -6,9 +6,31 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 Audience: developers and reviewers. Every item is tagged `[verified in code]` (present in
-source) or `[not run]` (not executed). Nothing here has been tested on a Moodle site.
+source), `[verified by CI]` (observed in a GitHub Actions run, with date) or `[not run]`
+(not executed). Nothing has been run on a real Moodle site.
 
 ## [Unreleased]
+
+### Verified by CI (first run, 2026-10-02, MySQL)
+
+- Moodle 4.5 with PHP 8.1 and 8.3: install, PHP lint, PHPDoc, Mustache lint, Grunt, upgrade
+  savepoints and PHPUnit (`OK (15 tests, 44 assertions)`) passed `[verified by CI]`.
+- The same run failed: Moodle Code Checker (lang string order), `validate` (table prefix),
+  PHPUnit on Moodle 5.0 and 5.1 (test helper `status()` overrides a final PHPUnit method), and
+  all jobs for `MOODLE_503_STABLE` (the upstream branch does not exist yet)
+  `[verified by CI]`. The fixes are listed under Changed. Whether they pass is `[not run]`
+  until the next CI run.
+
+### Changed
+
+- Database tables renamed from `local_rg_*` to `local_releasegate_*`, as required by
+  `moodle-plugin-ci validate` `[verified by CI]`. No site has ever installed the old names.
+- Language strings sorted alphabetically (`strcmp` order), as required by the Moodle code
+  checker `[verified by CI]`.
+- Test helper `status()` renamed to `rule_status()` to avoid overriding a final PHPUnit
+  method `[verified by CI]`.
+- CI matrix: Moodle 5.3 jobs now use `main` and are experimental, because
+  `MOODLE_503_STABLE` does not exist upstream yet `[verified by CI]`.
 
 ### Added
 
@@ -44,7 +66,7 @@ source) or `[not run]` (not executed). Nothing here has been tested on a Moodle 
 
 - Site overview now adds `1 = 0` when the viewer has no allowed courses, instead of adding no
   condition `[verified in code]`.
-- Course page no longer selects `*` from `local_rg_run`; only allowlisted columns are read
+- Course page no longer selects `*` from `local_releasegate_run`; only allowlisted columns are read
   `[verified in code]`.
 
 ### Known limitations

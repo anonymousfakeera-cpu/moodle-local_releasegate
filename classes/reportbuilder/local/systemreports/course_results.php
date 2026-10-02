@@ -46,15 +46,15 @@ class course_results extends system_report {
      */
     protected function initialise(): void {
         $resultentity = new result();
-        $resultalias = $resultentity->get_table_alias('local_rg_result');
+        $resultalias = $resultentity->get_table_alias('local_releasegate_result');
 
-        $this->set_main_table('local_rg_result', $resultalias);
+        $this->set_main_table('local_releasegate_result', $resultalias);
         $this->add_entity($resultentity);
 
         $runentity = new run();
-        $runalias = $runentity->get_table_alias('local_rg_run');
+        $runalias = $runentity->get_table_alias('local_releasegate_run');
         $this->add_entity($runentity->add_join(
-            "JOIN {local_rg_run} {$runalias} ON {$runalias}.id = {$resultalias}.runid"
+            "JOIN {local_releasegate_run} {$runalias} ON {$runalias}.id = {$resultalias}.runid"
         ));
 
         // Row scoping: only rows of runs belonging to the report's course.

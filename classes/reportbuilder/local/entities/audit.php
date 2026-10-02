@@ -17,7 +17,7 @@
 /**
  * Report Builder entity for the audit log.
  *
- * Exposes an explicit allowlist from {local_rg_audit}. The hash chain values and
+ * Exposes an explicit allowlist from {local_releasegate_audit}. The hash chain values and
  * the pseudonymous actor reference are deliberately not exposed.
  *
  * @package    local_releasegate
@@ -47,7 +47,7 @@ class audit extends base {
      * @return string[]
      */
     protected function get_default_tables(): array {
-        return ['local_rg_audit'];
+        return ['local_releasegate_audit'];
     }
 
     /**
@@ -80,7 +80,7 @@ class audit extends base {
      * @return column[]
      */
     protected function get_all_columns(): array {
-        $alias = $this->get_table_alias('local_rg_audit');
+        $alias = $this->get_table_alias('local_releasegate_audit');
 
         // Action, localised where known.
         $columns[] = (new column(
@@ -144,7 +144,7 @@ class audit extends base {
      * @return filter[]
      */
     protected function get_all_filters(): array {
-        $alias = $this->get_table_alias('local_rg_audit');
+        $alias = $this->get_table_alias('local_releasegate_audit');
 
         $filters[] = (new filter(
             text::class,

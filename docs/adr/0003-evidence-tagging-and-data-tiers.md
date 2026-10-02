@@ -20,6 +20,6 @@ No document may say "tested" for anything that has not been executed. This is ch
 | A | Course configuration (no personal data) | Collected |
 | B | Aggregate counts | Collected only as counts |
 | C | Learner or personal data | Never read by rule code |
-| P | Plugin-owned `local_rg_*` tables | Pseudonymous references only |
+| P | Plugin-owned `local_releasegate_*` tables | Pseudonymous references only |
 
 Details: `docs/research/data-scope-and-collection.md`.

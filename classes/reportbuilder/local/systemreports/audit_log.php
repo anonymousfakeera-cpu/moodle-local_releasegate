@@ -42,9 +42,9 @@ class audit_log extends system_report {
      */
     protected function initialise(): void {
         $entity = new audit();
-        $alias = $entity->get_table_alias('local_rg_audit');
+        $alias = $entity->get_table_alias('local_releasegate_audit');
 
-        $this->set_main_table('local_rg_audit', $alias);
+        $this->set_main_table('local_releasegate_audit', $alias);
         $this->add_entity($entity);
 
         $this->add_columns_from_entities([

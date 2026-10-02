@@ -61,7 +61,7 @@ class audit {
             throw new \moodle_exception('locktimeout', 'error');
         }
         try {
-            $last = $DB->get_records('local_rg_audit', null, 'id DESC', 'id, hash', 0, 1);
+            $last = $DB->get_records('local_releasegate_audit', null, 'id DESC', 'id, hash', 0, 1);
             $prev = $last ? reset($last)->hash : str_repeat('0', 64);
             $row = (object) [
                 'courseid' => $courseid,
@@ -72,7 +72,7 @@ class audit {
                 'timecreated' => time(),
             ];
             $row->hash = self::hash_row($row);
-            return $DB->insert_record('local_rg_audit', $row);
+            return $DB->insert_record('local_releasegate_audit', $row);
         } finally {
             $lock->release();
         }
@@ -97,7 +97,7 @@ class audit {
     public static function verify(): bool {
         global $DB;
         $prev = str_repeat('0', 64);
-        $rs = $DB->get_recordset('local_rg_audit', null, 'id ASC');
+        $rs = $DB->get_recordset('local_releasegate_audit', null, 'id ASC');
         foreach ($rs as $row) {
             if ($row->prevhash !== $prev || $row->hash !== self::hash_row($row)) {
                 $rs->close();

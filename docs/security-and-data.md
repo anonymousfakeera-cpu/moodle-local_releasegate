@@ -52,9 +52,9 @@ Only plugin-owned tables are written `[verified in code]`.
 
 | Table | What is written | Personal data |
 |---|---|---|
-| `local_rg_run` | verdict, coverage, ruleset version, fingerprint, `actorref`, time | pseudonymous hash only |
-| `local_rg_result` | rule id, area, severity, status, message, evidence (config facts) | none |
-| `local_rg_audit` | action, course id, `actorref`, detail, prevhash, hash, time | pseudonymous hash only |
+| `local_releasegate_run` | verdict, coverage, ruleset version, fingerprint, `actorref`, time | pseudonymous hash only |
+| `local_releasegate_result` | rule id, area, severity, status, message, evidence (config facts) | none |
+| `local_releasegate_audit` | action, course id, `actorref`, detail, prevhash, hash, time | pseudonymous hash only |
 
 `actorref` is a salted SHA-256 of the user id. It is not reversible without the site salt
 `[verified in code]`. It is never exposed in any UI screen `[verified in code]`.
@@ -72,7 +72,7 @@ From `classes/event/` `[verified in code]`.
 
 ## Privacy provider
 
-- The provider declares `local_rg_audit` (`actorref`, `action`, `timecreated`)
+- The provider declares `local_releasegate_audit` (`actorref`, `action`, `timecreated`)
   `[verified in code]`.
 - It does not implement export or delete for a user, because refs are one-way and not
   attributable without the site salt `[verified in code]`.

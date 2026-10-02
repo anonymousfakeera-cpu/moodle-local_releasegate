@@ -17,7 +17,7 @@
 /**
  * Report Builder entity for gate scans.
  *
- * Exposes an explicit allowlist of columns from {local_rg_run}. The
+ * Exposes an explicit allowlist of columns from {local_releasegate_run}. The
  * pseudonymous actor reference is deliberately not exposed.
  *
  * @package    local_releasegate
@@ -44,7 +44,7 @@ class run extends base {
      * @return string[]
      */
     protected function get_default_tables(): array {
-        return ['local_rg_run'];
+        return ['local_releasegate_run'];
     }
 
     /**
@@ -79,7 +79,7 @@ class run extends base {
      * @return column[]
      */
     protected function get_all_columns(): array {
-        $runalias = $this->get_table_alias('local_rg_run');
+        $runalias = $this->get_table_alias('local_releasegate_run');
 
         // Verdict, shown as a localised label, never as a bare code.
         $columns[] = (new column(
@@ -173,7 +173,7 @@ class run extends base {
      * @return filter[]
      */
     protected function get_all_filters(): array {
-        $runalias = $this->get_table_alias('local_rg_run');
+        $runalias = $this->get_table_alias('local_releasegate_run');
 
         // Verdict. COALESCE maps never-scanned courses (no joined run) to an explicit option.
         $filters[] = (new filter(

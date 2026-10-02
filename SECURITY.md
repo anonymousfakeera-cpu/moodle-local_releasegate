@@ -17,7 +17,7 @@ impact. **Do not include personal data, real course content or credentials.**
 ## Scope notes for reviewers
 
 - The plugin is designed to read course configuration only and to write only its own
-  `local_rg_*` tables. See `docs/security-and-data.md` for what is read, what is written and
+  `local_releasegate_*` tables. See `docs/security-and-data.md` for what is read, what is written and
   what is never read.
 - Access control uses Moodle capabilities; there is no separate permission system.
 - No response-time commitment is made at this stage.

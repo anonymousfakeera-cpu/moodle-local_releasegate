@@ -16,7 +16,7 @@ The enterprise goal sets one hard constraint on everything below: **the buyer's 
 |---|---|---|
 | **A. Native plugin collector** | PHP inside Moodle reads config through Moodle APIs (`get_fast_modinfo`, `completion_info`, DML `$DB`) | **Primary. Raw data never crosses the Moodle boundary.** |
 | **B. Moodle REST web services** | External app calls `core_*` functions with a token | **Not for collection.** Needs a long-lived token with broad capabilities, exposes rows over the network, and many config fields (`quiz_slots`, `grade_items.gradepass`, `scorm_scoes.launch`) have no stable endpoint. Every extra hop widens the compliance scope. |
-| **C. Report Builder (system reports and custom report sources)** | Moodle's built-in reporting, with its own entities, conditions, audiences and capability checks | **The reference for scope and access control.** Every screen that shows results is a Report Builder system report over our `local_rg_*` tables, so who-sees-what, filtering, scheduling and export follow Moodle's own rules and are not re-invented by us. Its entity and column lists also act as our **approved-column allowlist**: if a column is not exposed through a Report Builder entity, a rule does not read it without an explicit review. |
+| **C. Report Builder (system reports and custom report sources)** | Moodle's built-in reporting, with its own entities, conditions, audiences and capability checks | **The reference for scope and access control.** Every screen that shows results is a Report Builder system report over our `local_releasegate_*` tables, so who-sees-what, filtering, scheduling and export follow Moodle's own rules and are not re-invented by us. Its entity and column lists also act as our **approved-column allowlist**: if a column is not exposed through a Report Builder entity, a rule does not read it without an explicit review. |
 
 Decision: **C is the access-control and presentation standard, A collects the facts Report Builder cannot express, B carries only derived results** (see section 6).
 
@@ -58,16 +58,16 @@ Number of enrolments, share of activities with completion enabled. Counts only, 
 ### Tier P — plugin-owned tables
 | Table | Holds | Personal data |
 |---|---|---|
-| `local_rg_run` | verdict, coverage, ruleset version, config fingerprint, `actorref` | pseudonymous ref only *(verified)* |
-| `local_rg_result` | rule id, severity, status, message, evidence | evidence must be config facts, no names or emails *(proposed check)* |
-| `local_rg_audit` | hash-chained actions, `actorref` | pseudonymous ref only *(verified)* |
+| `local_releasegate_run` | verdict, coverage, ruleset version, config fingerprint, `actorref` | pseudonymous ref only *(verified)* |
+| `local_releasegate_result` | rule id, severity, status, message, evidence | evidence must be config facts, no names or emails *(proposed check)* |
+| `local_releasegate_audit` | hash-chained actions, `actorref` | pseudonymous ref only *(verified)* |
 
 ## 4. Compliance scope: what an enterprise security review will ask
 
 | Question | Answer to build toward | State today |
 |---|---|---|
 | Does learner data leave our Moodle? | No. Tier C is never read. | Holds in current rules; CI guard missing |
-| What can the plugin write? | Only its own `local_rg_*` tables. Courses are read-only. | Holds *(verified)* |
+| What can the plugin write? | Only its own `local_releasegate_*` tables. Courses are read-only. | Holds *(verified)* |
 | Who can see what? | Moodle capabilities, `viewlearnerdetail` separate, requester != approver | 2 capabilities exist; fuller set missing |
 | Is the audit trail tamper-evident? | Hash-chained, append-only, verifiable by a CLI command | Chain exists *(verified)*; verify command and legal hold missing |
 | Privacy / DSAR | Privacy API provider, pseudonymous refs, retention setting | Provider exists; retention and erase flow missing |
@@ -144,7 +144,7 @@ Goal: an enterprise admin can answer, in minutes and without our help, **"who ca
 
 ### 11.4 Data going in and going out
 - **In:** read-only on Tier A only (section 3). **Out:** only through exports and the optional outbound service (section 6). Both are separate capabilities, both logged, both limited to the approved columns.
-- A CI test fails the build if any code path writes to a table outside `local_rg_*`. This turns "we are read-only" from a promise into a checked property.
+- A CI test fails the build if any code path writes to a table outside `local_releasegate_*`. This turns "we are read-only" from a promise into a checked property.
 
 ### 11.5 Install without headache (targets, not yet measured)
 1. No extra service, no web service token, no inbound port, no extra cron entry. It runs on Moodle's own cron.

@@ -35,7 +35,7 @@ repository (`../01-...` to `../07-...`). Do not duplicate them here.
 
 1. Copy the plugin to `<moodledir>/local/releasegate`.
 2. Visit Site administration > Notifications, or run the CLI upgrade `[not run]`.
-3. The upgrade creates `local_rg_run`, `local_rg_result`, `local_rg_audit` and installs the
+3. The upgrade creates `local_releasegate_run`, `local_releasegate_result`, `local_releasegate_audit` and installs the
    capabilities from `db/access.php` `[verified in code]`.
 
 ## Upgrade
@@ -46,7 +46,7 @@ repository (`../01-...` to `../07-...`). Do not duplicate them here.
 ## Uninstall
 
 - Remove via Site administration > Plugins > Plugins overview `[not run]`.
-- This drops the three `local_rg_*` tables and the plugin capabilities. No core table is
+- This drops the three `local_releasegate_*` tables and the plugin capabilities. No core table is
   written by the plugin `[verified in code]`.
 
 ## Where things are

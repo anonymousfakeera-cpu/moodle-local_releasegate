@@ -66,8 +66,8 @@ access review lists capability assignments; user counts are hidden unless the vi
 - The nightly sweep task `local_releasegate\task\sweep` runs at 02:17 site time
   `[verified in code]`. Change it in Site administration > Server > Scheduled tasks `[not run]`.
 - A user with `run` can scan one course from the course page `[verified in code]`.
-- A scan writes one `local_rg_run` row, one `local_rg_result` row per rule, and one
-  hash-chained `local_rg_audit` row, in a transaction `[verified in code]`.
+- A scan writes one `local_releasegate_run` row, one `local_releasegate_result` row per rule, and one
+  hash-chained `local_releasegate_audit` row, in a transaction `[verified in code]`.
 - Only one scan per course runs at a time (lock); a second caller fails with a lock error
   `[verified in code]`.
 - The gate health check appears in Site administration > Reports > Status (`cron_health`)
