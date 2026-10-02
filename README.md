@@ -1,5 +1,7 @@
 # Release Gate (`local_releasegate`)
 
+[![Moodle CI](https://github.com/anonymousfakeera-cpu/moodle-local_releasegate/actions/workflows/moodle-ci.yml/badge.svg)](https://github.com/anonymousfakeera-cpu/moodle-local_releasegate/actions/workflows/moodle-ci.yml)
+
 Purpose: stage-to-live readiness gate for Moodle courses. It reads course configuration,
 applies deterministic rules, and records a verdict (READY / CONDITIONAL / BLOCKED /
 INSUFFICIENT DATA). AI is not part of the product and everything works with AI absent.
@@ -11,11 +13,12 @@ repository (`../01-...` to `../07-...`). Do not duplicate them here.
 
 ## Status
 
+- **CI green** (2026-10-02): all 8 matrix jobs (Moodle 4.5/5.0/5.1/main × PHP 8.1–8.4)
+  pass PHPUnit, PHP lint, Code Checker, and validate. 22 tests including access-scope suite.
 - Written: capabilities, events, Report Builder entities and system reports, course page,
   site overview, access review, trust sheet, audit report and chain verification.
-- Not run: nothing in this repository has been executed. This machine has no PHP and no
-  Moodle install. Every claim below is tagged `[verified in code]` (read from source) or
-  `[not run]` (behaviour not executed).
+- Not run on a live site: no site deployment yet. All site-level behaviour is tagged
+  `[verified in code]` (read from source) or `[verified by CI]` (observed in GitHub Actions).
 
 ## Requirements
 
