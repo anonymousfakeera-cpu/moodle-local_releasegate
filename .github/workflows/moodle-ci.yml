@@ -2,7 +2,8 @@
 #
 # Based on the official moodle-plugin-ci GitHub Actions example
 # (https://moodlehq.github.io/moodle-plugin-ci/GHAFileExplained.html).
-# Status: NOT RUN. This file has never been executed on GitHub.
+# Status: CI green on 2026-10-02, run 36985100677 (all 8 matrix jobs, 22 PHPUnit tests).
+# Behat enabled with Chrome service; feature files in tests/behat/.
 #
 # Layout assumption: this folder is the root of the plugin repository, so that
 # "path: plugin" below checks out the plugin itself.
@@ -39,6 +40,12 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 3
+
+      # Chrome is required for the behat --profile chrome step.
+      # selenium/standalone-chrome exposes ChromeDriver on port 4444.
+      chrome:
+        image: selenium/standalone-chrome:latest
+        options: --add-host=host.docker.internal:host-gateway
 
       # mariadb:
       #   image: mariadb:10

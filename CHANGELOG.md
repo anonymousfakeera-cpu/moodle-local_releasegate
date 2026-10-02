@@ -55,6 +55,14 @@ source), `[verified by CI]` (observed in a GitHub Actions run, with date) or `[n
   report id and user, not by parameters) and expect the fail-closed exception when the report
   is created `[verified by CI 2026-10-02]`.
 
+### Added (run 4, pending)
+
+- Behat smoke suite (`tests/behat/basic_access.feature`): 7 scenarios covering
+  auth redirect from all three site-level pages and admin/teacher page access
+  `[verified in code]`.
+- Chrome service added to CI matrix for `behat --profile chrome` to work
+  `[verified in code]`.
+
 ### Added
 
 - Capabilities in `db/access.php`: `view`, `viewresults`, `viewevidence`, `run`, `export`,
