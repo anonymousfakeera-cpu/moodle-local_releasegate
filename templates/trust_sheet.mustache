@@ -1,0 +1,103 @@
+{{!
+    Release gate trust sheet.
+
+    @template local_releasegate/trust_sheet
+
+    Context variables required for this template:
+    * intro - string
+    * readheading, readnote, coltable, colcolumns, readtables (array of {name, columns})
+    * neverheading, nevernote, denylist (array of {name})
+    * accessheading, accessnote, colcapability, colroles, defaultaccess (array of {capability, roles})
+    * eventsheading, eventsnote, colevent, colwhen, events (array of {name, when})
+
+    Example context (json):
+    {
+        "intro": "This page states what the Release Gate plugin reads.",
+        "readheading": "Data read",
+        "readnote": "Course configuration only.",
+        "coltable": "Table",
+        "colcolumns": "Columns",
+        "readtables": [{"name": "course", "columns": "id, enablecompletion"}],
+        "neverheading": "Data never read",
+        "nevernote": "Personal and learner data.",
+        "denylist": [{"name": "user"}],
+        "accessheading": "Default access",
+        "accessnote": "Defaults from db/access.php.",
+        "colcapability": "Capability",
+        "colroles": "Default roles",
+        "defaultaccess": [{"capability": "local/releasegate:view", "roles": "manager"}],
+        "eventsheading": "Events logged",
+        "eventsnote": "Access log events.",
+        "colevent": "Event",
+        "colwhen": "When",
+        "events": [{"name": "local_releasegate\\event\\gate_viewed", "when": "Viewed"}]
+    }
+}}
+<div class="local-releasegate-trust">
+    <p>{{intro}}</p>
+
+    <h3>{{readheading}}</h3>
+    <p class="text-muted">{{readnote}}</p>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">{{coltable}}</th>
+                <th scope="col">{{colcolumns}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#readtables}}
+                <tr>
+                    <td><code>{{name}}</code></td>
+                    <td><code>{{columns}}</code></td>
+                </tr>
+            {{/readtables}}
+        </tbody>
+    </table>
+
+    <h3>{{neverheading}}</h3>
+    <p class="text-muted">{{nevernote}}</p>
+    <ul>
+        {{#denylist}}
+            <li><code>{{name}}</code></li>
+        {{/denylist}}
+    </ul>
+
+    <h3>{{accessheading}}</h3>
+    <p class="text-muted">{{accessnote}}</p>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">{{colcapability}}</th>
+                <th scope="col">{{colroles}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#defaultaccess}}
+                <tr>
+                    <td><code>{{capability}}</code></td>
+                    <td>{{roles}}</td>
+                </tr>
+            {{/defaultaccess}}
+        </tbody>
+    </table>
+
+    <h3>{{eventsheading}}</h3>
+    <p class="text-muted">{{eventsnote}}</p>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">{{colevent}}</th>
+                <th scope="col">{{colwhen}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#events}}
+                <tr>
+                    <td><code>{{name}}</code></td>
+                    <td>{{when}}</td>
+                </tr>
+            {{/events}}
+        </tbody>
+    </table>
+</div>

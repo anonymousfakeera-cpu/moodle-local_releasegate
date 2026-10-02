@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software or the research notes in docs/research, please cite it as below."
+title: "Release Gate for Moodle (local_releasegate)"
+type: software
+authors:
+  - family-names: "Kumar"
+    given-names: "Hemant"
+license: GPL-3.0-or-later
+version: 0.1.0
+abstract: >-
+  A Moodle local plugin that checks whether a course is configured correctly
+  before go-live, using deterministic rules over course configuration, with
+  access control and audit built on Moodle's own roles, Report Builder and
+  events. Alpha: not yet run on a Moodle site.
+keywords:
+  - moodle
+  - lms
+  - quality-assurance
+  - compliance
+  - report-builder

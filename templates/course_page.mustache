@@ -1,0 +1,107 @@
+{{!
+    Course release gate page.
+
+    @template local_releasegate/course_page
+
+    Context variables required for this template:
+    * hasrun - bool, whether a scan exists
+    * norun - string, notice when no scan exists
+    * verdict - string, localised verdict
+    * verdictclass - string, bootstrap alert class
+    * coverage - int, percentage
+    * coverage_label - string
+    * rulesetversion - string
+    * rulesetversion_label - string
+    * timecreated - string, formatted date
+    * timecreated_label - string
+    * fingerprint - string, shortened
+    * fingerprint_label - string
+    * canrun - bool
+    * runurl - string
+    * runscan - string
+    * hasreport - bool
+    * reporthtml - string, already rendered system report
+    * canviewevidence - bool
+    * evidenceurl - string
+    * evidencetoggle - string
+    * showevevidence - bool
+    * evidencelist - array of {rule, message, hasmessage, evidence}
+    * noevidence - string
+
+    Example context (json):
+    {
+        "hasrun": true,
+        "verdict": "Ready",
+        "verdictclass": "alert-success",
+        "coverage": 90,
+        "coverage_label": "Coverage",
+        "rulesetversion": "2026.1",
+        "rulesetversion_label": "Ruleset version",
+        "timecreated": "1 January 2026",
+        "timecreated_label": "Time scanned",
+        "fingerprint": "abc123...",
+        "fingerprint_label": "Fingerprint",
+        "canrun": true,
+        "runurl": "/local/releasegate/course.php?id=2&run=1&sesskey=x",
+        "runscan": "Run scan now",
+        "hasreport": true,
+        "reporthtml": "<table></table>",
+        "canviewevidence": true,
+        "evidenceurl": "/local/releasegate/course.php?id=2&evidence=1&sesskey=x",
+        "evidencetoggle": "Show evidence",
+        "showevevidence": false,
+        "evidencelist": [],
+        "noevidence": "No evidence detail was recorded for this scan."
+    }
+}}
+<div class="local-releasegate">
+    {{#norun}}
+        <div class="alert alert-info" role="status">{{norun}}</div>
+    {{/norun}}
+
+    {{#hasrun}}
+        <div class="alert {{verdictclass}}" role="status">
+            <h3 class="alert-heading mb-2">{{verdict}}</h3>
+            <p class="mb-0">
+                {{coverage_label}}: {{coverage}}% &middot;
+                {{rulesetversion_label}}: {{rulesetversion}} &middot;
+                {{timecreated_label}}: {{timecreated}}
+            </p>
+            <p class="mb-0"><small class="text-muted">{{fingerprint_label}}: {{fingerprint}}</small></p>
+        </div>
+    {{/hasrun}}
+
+    {{#canrun}}
+        <div class="mb-3">
+            <a class="btn btn-primary" href="{{runurl}}">{{runscan}}</a>
+        </div>
+    {{/canrun}}
+
+    {{#hasreport}}
+        <div class="local-releasegate-report mb-3">
+            {{{reporthtml}}}
+        </div>
+    {{/hasreport}}
+
+    {{#canviewevidence}}
+        <div class="card mb-3">
+            <div class="card-header">
+                <a href="{{evidenceurl}}">{{evidencetoggle}}</a>
+            </div>
+            {{#showevevidence}}
+                <div class="card-body">
+                    {{#evidencelist}}
+                        <div class="mb-2">
+                            <strong>{{rule}}</strong>
+                            {{#hasmessage}}<div>{{message}}</div>{{/hasmessage}}
+                            <pre class="mb-0 small">{{evidence}}</pre>
+                        </div>
+                    {{/evidencelist}}
+                    {{^evidencelist}}
+                        <p class="mb-0 text-muted">{{noevidence}}</p>
+                    {{/evidencelist}}
+                </div>
+            {{/showevevidence}}
+        </div>
+    {{/canviewevidence}}
+</div>

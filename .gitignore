@@ -1,0 +1,9 @@
+vendor/
+node_modules/
+*.zip
+*.phar
+.idea/
+.vscode/
+*.log
+.env
+.env.*
