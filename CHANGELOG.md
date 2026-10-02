@@ -55,13 +55,26 @@ source), `[verified by CI]` (observed in a GitHub Actions run, with date) or `[n
   report id and user, not by parameters) and expect the fail-closed exception when the report
   is created `[verified by CI 2026-10-02]`.
 
-### Added (run 4, pending)
+### Added (batch 1: integrity rules, CI pending)
 
-- Behat smoke suite (`tests/behat/basic_access.feature`): 7 scenarios covering
-  auth redirect from all three site-level pages and admin/teacher page access
-  `[verified in code]`.
+- Seven new rules, ruleset version `2026.10.2`: RG-CMP-015 (self-completion criterion), RG-CMP-016
+  (automatic completion satisfied by viewing only), RG-GRD-015 (quiz reveals right answers early),
+  RG-GRD-016 (unlimited quiz attempts), RG-GRD-018 (minimum attempts above allowed attempts),
+  RG-H5P-006 (manual H5P grading with grade-based completion), RG-ENR-006 (self-enrolment inactivity
+  period) `[verified in code]`.
+- Engine helpers in `course_context`: `live_modules_of()`, `instances()` (one query per module type),
+  `module_available()`, `completion_rules_used()` `[verified in code]`.
+- `tests/rules_integrity_test.php`: PASS/FAIL/SKIP cases per rule plus meta tests (unique ids, lang
+  strings, every rule file registered, every rule id referenced by a test) `[not run]`.
+- `docs/research/rule-coverage-matrix.md` `[verified in code]`.
+
+### Added (run 4, verified by CI 2026-10-02)
+
+- Behat smoke suite (`tests/behat/basic_access.feature`): 6 scenarios covering
+  auth redirect from all three site-level pages and admin page access
+  `[verified by CI 2026-10-02]`.
 - Chrome service added to CI matrix for `behat --profile chrome` to work
-  `[verified in code]`.
+  `[verified by CI 2026-10-02]`.
 
 ### Added
 

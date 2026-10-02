@@ -21,15 +21,19 @@ Taken from the rule, engine and check source `[verified in code]`.
 
 | Table | Columns used | Used by |
 |---|---|---|
-| `course` | `id`, `enablecompletion` | RG-CRS-001 |
-| `course_modules` | `id`, `course`, `module`, `instance`, `deletioninprogress`, `availability` | course_context, RG-RST-001 |
+| `course` | `id`, `enablecompletion` | RG-CRS-001, RG-CMP-015 |
+| `course_modules` | `id`, `course`, `module`, `instance`, `deletioninprogress`, `visible`, `availability`, `completion`, `completionview`, `completionpassgrade`, `completiongradeitemnumber` | course_context, RG-RST-001, RG-CMP-016, RG-GRD-018, RG-H5P-006 |
 | `modules` | `id`, `name` | course_context |
-| `course_completion_criteria` | `course`, `criteriatype`, `moduleinstance` | RG-CMP-001/002/003 |
-| `enrol` | `courseid`, `status` | RG-ENR-001 |
+| `course_completion_criteria` | `course`, `criteriatype`, `module`, `moduleinstance` | RG-CMP-001/002/003, RG-CMP-015 |
+| `enrol` | `courseid`, `enrol`, `status`, `customint2` | RG-ENR-001, RG-ENR-006 |
 | `grade_items` | `courseid`, `itemtype`, `itemmodule`, `iteminstance`, `itemnumber`, `gradepass` | RG-GRD-001, RG-QUZ-002 |
-| `quiz` | `id`, `grade` | RG-QUZ-002 |
+| `quiz` | `id`, `grade`, `attempts`, `reviewrightanswer`, `reviewcorrectness`, `completionminattempts`, `completionattemptsexhausted` | RG-QUZ-002, RG-GRD-015/016/018, RG-CMP-016 |
 | `quiz_slots` | `quizid` | RG-QUZ-001 |
+| `scorm` | `id`, `completionstatusrequired`, `completionscorerequired`, `completionstatusallscos` | RG-CMP-016 |
 | `scorm_scoes` | `scorm`, `launch` | RG-SCM-001 |
+| `assign` | `id`, `completionsubmit` | RG-CMP-016 |
+| `lesson` | `id`, `completionendreached`, `completiontimespent` | RG-CMP-016 |
+| `h5pactivity` | `id`, `grademethod` | RG-CMP-016, RG-H5P-006 |
 | `task_scheduled` | `lastruntime` | cron health check |
 
 The activity name shown in messages is read from the activity's own instance table

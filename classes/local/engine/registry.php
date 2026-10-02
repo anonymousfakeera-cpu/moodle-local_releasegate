@@ -29,7 +29,7 @@ namespace local_releasegate\local\engine;
  */
 class registry {
     /** @var string Bump whenever rule behaviour changes. */
-    const RULESET_VERSION = '2026.10.1';
+    const RULESET_VERSION = '2026.10.2';
 
     /**
      * All rules, in evaluation order.
@@ -37,8 +37,10 @@ class registry {
      * @return rule_base[]
      */
     public static function rules(): array {
-        $names = ['course', 'enrolment', 'completion', 'completion_activity', 'completion_missing', 'passgrade',
-            'quiz_empty', 'quiz_passgrade', 'scorm_launch', 'restriction_missing'];
+        $names = ['course', 'enrolment', 'enrol_self_inactivity', 'completion', 'completion_activity',
+            'completion_missing', 'completion_self', 'completion_viewonly', 'passgrade',
+            'quiz_empty', 'quiz_passgrade', 'quiz_review', 'quiz_attempts', 'quiz_minattempts',
+            'scorm_launch', 'h5p_manualgrade', 'restriction_missing'];
         $rules = [];
         foreach ($names as $name) {
             $class = '\\local_releasegate\\local\\rule\\' . $name;

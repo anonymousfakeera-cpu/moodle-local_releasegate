@@ -57,7 +57,7 @@ Columns: **Setting** (table.column or config) · **Expect** (golden value for th
 | `enrol.enrolstartdate`, `enrolenddate` | window covers the training period | start in future / end in past (self-enrol gate, `enrol/self/lib.php:314-319`) | "Enrolment not possible" at launch | DB | RG-ENR-002 |
 | `enrol.customint3` (self: max enrolled) | ≥ cohort size, or 0 | cap below the number of people | Late learners blocked in a mass roll-out | DB + `cohort_members` count | **NEW** RG-ENR-004 |
 | `enrol.customint5` (self: cohort-only) | intended cohort | wrong or empty cohort | Intended people cannot self-enrol | DB | **NEW** RG-ENR-005 |
-| `enrol.customint2` (self: inactivity period) | 0 for B, deliberate for A | set (`enrol/self/lib.php:660` moves `timeend`) | Slow learners lose access and may be unenrolled | DB | **NEW** RG-ENR-006 |
+| `enrol.customint2` (self: inactivity period) | 0 for B, deliberate for A | set (`enrol/self/lib.php:660` moves `timeend`) | Slow learners lose access and may be unenrolled | DB | **NEW** RG-ENR-006 (implemented, CI pending) |
 | `enrol.enrolperiod` | ≥ time needed to finish | shorter than the course or the deadline | Access ends before completion is possible | DB | **NEW** RG-DAT-003 |
 | `enrol.expirynotify`, `expirythreshold` | notify with threshold ≥ 1 day | threshold below 1 day or notify off | Reminders never sent or invalid (form-only check, see 1.1) | DB | **NEW** RG-ENR-007 |
 | guest enrolment active | off for B | on | Unidentified users can view or attempt | DB | RG-ENR-003 |
@@ -82,7 +82,7 @@ Verified coding: `completion` 0 none, 1 manual, 2 automatic; `completionview` 0/
 | `completion` = 0 on a quiz, SCORM, H5P, assignment or lesson | Activity can never count toward completion | RG-CMP-007 |
 | `completion` = 2 with no rule selected | Never completes | RG-CMP-009 |
 | `completion` = 1 (manual tick) on a graded assessment | Learner ticks it without passing | RG-CMP-010 |
-| `completion` = 2 with only `completionview` = 1 on an assessment | **Completes on view, no attempt needed** | **NEW** RG-CMP-016 |
+| `completion` = 2 with only `completionview` = 1 on an assessment | **Completes on view, no attempt needed** | **NEW** RG-CMP-016 (implemented, CI pending) |
 | `completionpassgrade` = 1 but `gradepass` = 0 | "Pass" is meaningless; everyone passes | RG-CMP-006 |
 | "Receive a grade" but activity grade = 0 | Never completes | RG-CMP-005 |
 | `completionexpected` in the past | Everyone shows overdue | RG-CMP-014 |
@@ -100,7 +100,7 @@ Verified: criteria types 1 self, 2 date, 3 unenrol, 4 activity, 5 duration, 6 gr
 | Date criterion (type 2) already past | Everyone completes immediately | RG-CMP-011 |
 | Grade criterion (type 6) above attainable | Unreachable | RG-CMP-012 |
 | Aggregation ANY where ALL is intended | Completes after one activity | RG-CMP-013 |
-| **Self-completion criterion (type 1) present** | **Learner marks themselves complete without assessment** | **NEW** RG-CMP-015 |
+| **Self-completion criterion (type 1) present** | **Learner marks themselves complete without assessment** | **NEW** RG-CMP-015 (implemented, CI pending) |
 | Role criterion (type 7) or unenrol criterion (type 3) used by mistake | Completion triggered by a teacher action or by leaving | **NEW** RG-CMP-017 |
 | Duration criterion (type 5, days after enrolment) shorter than the content | Auto-completes without engagement | RG-CMP-011 (extend) |
 
@@ -110,13 +110,13 @@ Verified: criteria types 1 self, 2 date, 3 unenrol, 4 activity, 5 duration, 6 gr
 | `sumgrades` vs sum of `quiz_slots.maxmark` | equal | differ | Wrong grades until regrade | `mod_quiz_get_quizzes_by_courses` + DB | RG-GRD-002 |
 | `quiz_slots` rows | ≥ 1 | none | Empty quiz | DB | RG-GRD-003 |
 | `grade` vs `grade_items.gradepass` | `gradepass` between min and `grade` | pass above max | Nobody passes | DB | RG-GRD-001 |
-| `attempts` (0 = unlimited) | B: small fixed number; A: per design | 0 on a pass-or-fail compliance quiz | Learners retry until they pass; weakens evidence | DB | **NEW** RG-GRD-016 |
-| `completionminattempts` vs `attempts` | min ≤ attempts | min > attempts (form-only check) | Completion unreachable | DB | **NEW** RG-GRD-018 |
+| `attempts` (0 = unlimited) | B: small fixed number; A: per design | 0 on a pass-or-fail compliance quiz | Learners retry until they pass; weakens evidence | DB | **NEW** RG-GRD-016 (implemented, CI pending) |
+| `completionminattempts` vs `attempts` | min ≤ attempts | min > attempts (form-only check) | Completion unreachable | DB | **NEW** RG-GRD-018 (implemented, CI pending) |
 | `completionattemptsexhausted` with `attempts` = 0 | not combined | combined | Never completes | DB | RG-GRD-009 |
 | `grademethod` (1 highest, 2 average, 3 first, 4 last) | per policy | wrong method for the policy | Recorded grade does not match the intended attempt | DB | **NEW** RG-GRD-017 |
 | `timelimit` + `overduehandling` (`autoabandon` default / `autosubmit` / `graceperiod`) | `autosubmit` | `autoabandon` | Timed-out attempt is lost, not graded | DB | RG-GRD-010 |
 | `timeopen`, `timeclose` | window inside course dates | close before open or already closed | Quiz unavailable | DB | RG-GRD-011 |
-| `reviewattempt`, `reviewrightanswer`, `reviewcorrectness`, etc. (bit flags: during 0x10000, immediately 0x01000, later while open 0x00100, after close 0x00010) | B: no right answers before close | right answers visible immediately | **Answers can be shared**; integrity lost | DB | **NEW** RG-GRD-015 |
+| `reviewattempt`, `reviewrightanswer`, `reviewcorrectness`, etc. (bit flags: during 0x10000, immediately 0x01000, later while open 0x00100, after close 0x00010) | B: no right answers before close | right answers visible immediately | **Answers can be shared**; integrity lost | DB | **NEW** RG-GRD-015 (implemented, CI pending) |
 | `password`, `subnet`, `browsersecurity`, SEB (`quizaccess_seb_quizsettings.requiresafeexambrowser`) | as announced | enabled but not communicated, or SEB required without keys | Learners locked out at exam time | DB | RG-GRD-012 |
 | `delay1`, `delay2` | small or 0 | long forced delay | Learner cannot retry in time | DB | **NEW** RG-GRD-019 |
 | Question versions in use | ready | draft | Unreviewed question served | DB | RG-GRD-005 |
@@ -138,7 +138,7 @@ Verified: criteria types 1 self, 2 date, 3 unenrol, 4 activity, 5 duration, 6 gr
 |---|---|---|---|
 | `enabletracking` = 0 with completion or grade dependent on attempts | No attempt data recorded | RG-H5P-003 |
 | `grade` = 0 with grade-based completion | Never completes | RG-H5P-004 |
-| `grademethod` = 0 (manual) | **No automatic grade**, so grade-based completion never fires (`classes/local/grader.php:148`) | **NEW** RG-H5P-006 |
+| `grademethod` = 0 (manual) | **No automatic grade**, so grade-based completion never fires (`classes/local/grader.php:148`) | **NEW** RG-H5P-006 (implemented, CI pending) |
 | No custom completion rules exist for H5P (`FEATURE_COMPLETION_HAS_RULES` not declared, `lib.php:60`) | Team expects "complete on success"; only view or grade can drive completion | documentation note |
 | `reviewmode` | Learners cannot review their attempts | informational |
 

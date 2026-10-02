@@ -31,6 +31,16 @@ phpcs --standard=moodle .                     # Moodle coding style, expect no e
 PHPUnit and Behat run in CI with `moodle-plugin-ci` (see `.github/workflows/moodle-ci.yml`);
 they need a full Moodle and a database.
 
+## Adding a rule
+
+1. Class in `classes/local/rule/` extending `rule_base` (id, area, severity, evaluate).
+2. Register the file name in `classes/local/engine/registry.php` and bump `RULESET_VERSION`.
+3. Add `rule_<ID>` and `rule_<ID>_fail` strings to the lang file (strcmp key order).
+4. Add PASS, FAIL and SKIP cases to `tests/rules_integrity_test.php`. The meta tests fail in CI if a rule
+   file is not registered, has no lang string, or its id appears in no test.
+5. List any newly read table or column in `docs/security-and-data.md` (Tier A only).
+6. Update `docs/research/rule-coverage-matrix.md` and `CHANGELOG.md`.
+
 ## Pull request checklist
 
 - [ ] `php -l` and `phpcs --standard=moodle` are clean

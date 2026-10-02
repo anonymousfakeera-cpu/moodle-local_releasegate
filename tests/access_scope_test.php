@@ -49,8 +49,7 @@ final class access_scope_test extends \advanced_testcase {
      * @return void
      */
     public static function setUpBeforeClass(): void {
-        global $CFG;
-        require_once("{$CFG->dirroot}/local/releasegate/tests/fixtures/testable_system_report_table.php");
+        require_once(__DIR__ . '/fixtures/testable_system_report_table.php');
         parent::setUpBeforeClass();
     }
 
