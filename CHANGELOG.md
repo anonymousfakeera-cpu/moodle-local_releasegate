@@ -11,6 +11,13 @@ source), `[verified by CI]` (observed in a GitHub Actions run, with date) or `[n
 
 ## [Unreleased]
 
+### Verified by CI (run 3, 2026-10-02, MySQL — all 8 jobs passed)
+
+- All 8 matrix jobs (Moodle 4.5/5.0/5.1/main × PHP 8.1–8.4) passed PHPUnit
+  (`22 tests` on access-scope suite + original gate tests) `[verified by CI 2026-10-02]`.
+- Report Builder column callback TypeError fix confirmed on MySQL `[verified by CI 2026-10-02]`.
+- `database::generate_param_name()` IN-clause fix for site_overview confirmed `[verified by CI 2026-10-02]`.
+
 ### Verified by CI (first run, 2026-10-02, MySQL)
 
 - Moodle 4.5 with PHP 8.1 and 8.3: install, PHP lint, PHPDoc, Mustache lint, Grunt, upgrade
@@ -37,14 +44,16 @@ source), `[verified by CI]` (observed in a GitHub Actions run, with date) or `[n
 - Four Report Builder column callbacks (`site_overview`, `access_review`, `audit`, `role_capability`)
   type-hinted `?int`, but MySQL returns strings and Report Builder calls with strict types, so
   every row would have thrown a `TypeError`. Found by the access-scope tests in CI
-  `[verified by CI]`; the hints are removed and values cast inside `[not run]` until the next CI run.
+  `[verified by CI 2026-10-02]`; the hints are removed and values cast inside
+  `[verified by CI 2026-10-02]`.
 - `site_overview` built its course restriction with `$DB->get_in_or_equal()`, whose parameter
   names Report Builder rejects (`Invalid parameter names`), so the site overview would have
   thrown for any user with an allowed course. Found by the new access-scope tests in CI
-  `[verified by CI]`; now uses `database::generate_param_name()` `[not run]` until the next CI run.
+  `[verified by CI 2026-10-02]`; now uses `database::generate_param_name()`
+  `[verified by CI 2026-10-02]`.
 - Access-scope tests reset the Report Builder instance cache between reads (it is keyed by
   report id and user, not by parameters) and expect the fail-closed exception when the report
-  is created `[not run]`.
+  is created `[verified by CI 2026-10-02]`.
 
 ### Added
 
