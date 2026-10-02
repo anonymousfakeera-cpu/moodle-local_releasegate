@@ -29,6 +29,7 @@
 namespace local_releasegate\reportbuilder\local\systemreports;
 
 use core\lang_string;
+use core_reportbuilder\local\helpers\database;
 use core_reportbuilder\local\report\column;
 use core_reportbuilder\system_report;
 use local_releasegate\reportbuilder\local\entities\role_capability;
@@ -60,20 +61,31 @@ class access_review extends system_report {
         $this->add_entity($entity);
 
         // Restrict to Release Gate capabilities.
-        [$capsql, $capparams] = $DB->get_in_or_equal(
-            role_capability::gate_capabilities(),
-            SQL_PARAMS_NAMED,
-            'rgcap'
+        // Report Builder only accepts param names from database::generate_param_name().
+        $capplaceholders = [];
+        $capparams = [];
+        foreach (role_capability::gate_capabilities() as $cap) {
+            $name = database::generate_param_name();
+            $capplaceholders[] = ':' . $name;
+            $capparams[$name] = $cap;
+        }
+        $this->add_base_condition_sql(
+            "{$rcalias}.capability IN (" . implode(',', $capplaceholders) . ')',
+            $capparams
         );
-        $this->add_base_condition_sql("{$rcalias}.capability {$capsql}", $capparams);
 
         // Restrict to contexts where a course-level capability can be held.
-        [$lvlsql, $lvlparams] = $DB->get_in_or_equal(
-            [CONTEXT_SYSTEM, CONTEXT_COURSECAT, CONTEXT_COURSE],
-            SQL_PARAMS_NAMED,
-            'rglvl'
+        $lvlplaceholders = [];
+        $lvlparams = [];
+        foreach ([CONTEXT_SYSTEM, CONTEXT_COURSECAT, CONTEXT_COURSE] as $level) {
+            $name = database::generate_param_name();
+            $lvlplaceholders[] = ':' . $name;
+            $lvlparams[$name] = $level;
+        }
+        $this->add_base_condition_sql(
+            "{$contextalias}.contextlevel IN (" . implode(',', $lvlplaceholders) . ')',
+            $lvlparams
         );
-        $this->add_base_condition_sql("{$contextalias}.contextlevel {$lvlsql}", $lvlparams);
 
         $this->add_columns();
         $this->add_filters();
